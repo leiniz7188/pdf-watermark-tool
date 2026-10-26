@@ -1,0 +1,52 @@
+{
+  "settings": {
+    "primary_line": "资料来源：@橙子同学",
+    "secondary_line": "仅供个人学习，请勿转售。侵权必究。",
+    "opacity": 0.12,
+    "angle": 28,
+    "color": "#536D91",
+    "raster_dpi": 300,
+    "font_path": ""
+  },
+  "files": [
+    {
+      "input": "D:\\UserFolders\\Desktop\\AI知识图卡\\01==高效新概念知识图卡\\00==高效新概念英语知识图卡【全】\\1A-高效新概念英语知识图卡.pdf",
+      "output": "D:\\UserFolders\\Desktop\\AI知识图卡\\AI知识图卡\\PDF水印工具\\运行示例\\已加水印_20261026_105341\\1A-高效新概念英语知识图卡_已加水印.pdf",
+      "status": "ok",
+      "pages": [
+        {
+          "page": 1,
+          "pixels": [
+            1055,
+            1491
+          ],
+          "method": "保留原图像素"
+        },
+        {
+          "page": 2,
+          "pixels": [
+            1055,
+            1491
+          ],
+          "method": "保留原图像素"
+        },
+        {
+          "page": 3,
+          "pixels": [
+            1055,
+            1491
+          ],
+          "method": "保留原图像素"
+        },
+        {
+          "page": 4,
+          "pixels": [
+            1055,
+            1491
+          ],
+          "method": "保留原图像素"
+        }
+      ]
+    }
+  ]
+}
