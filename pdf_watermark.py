@@ -24,8 +24,8 @@ except ImportError as exc:
 HERE = Path(__file__).resolve().parent
 MAX_PAGE_PIXELS = 60_000_000
 DEFAULTS = {
-    "primary_line": "资料来源：@橙子同学",
-    "secondary_line": "仅供个人学习，请勿转售。侵权必究。",
+    "primary_line": "Your Name @your-handle",
+    "secondary_line": "For personal use only. Do not redistribute.",
     "opacity": 0.12,
     "angle": 28,
     "color": "#536D91",
@@ -87,7 +87,7 @@ def select_inputs() -> list[Path]:
 
     selected: list[Path] = []
     root = tk.Tk()
-    root.title("橙子同学 · PDF 水印工具")
+    root.title("PDF Watermark Tool")
     root.geometry("500x205")
     root.resizable(False, False)
     root.eval("tk::PlaceWindow . center")

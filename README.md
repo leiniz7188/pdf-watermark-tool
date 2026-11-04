@@ -1,73 +1,96 @@
-# PDF 水印工具
+# pdf-watermark-tool
 
-给知识图卡 PDF 批量添加浅色中央水印的小工具。本地运行，不联网、不上传文件，原文件保留不动。
+English | [中文](README.zh-CN.md)
 
-适合：小红书知识图卡作者给自己的 PDF 资料加「资料来源 / 请勿转售」水印，防搬运。
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)](#)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 
-## 功能
+> Batch-add a subtle, centered, diagonal text watermark to every page of your PDFs — locally, in one click.
 
-- 每页正中央铺一个倾斜的浅色文字水印（两行：主标题 + 副标题）
-- 保留原文件，结果另存到新文件夹
-- 支持单文件、多选、整文件夹批量处理
-- 智能处理：纯图片页保留原图像素（不糊），复杂页按分辨率渲染后叠加
-- 自动复制原 PDF 的书签、元数据，并额外生成一份「处理记录.json」
-- 拒绝覆盖已有文件，原文件有打开密码会跳过并提示
+A lightweight, offline PDF watermark tool. It stamps a two-line semi-transparent diagonal text watermark in the middle of every page, flattens it into the page image so it can't be removed as a separate object, and saves results to a new folder — your originals are never touched.
 
-## 环境要求
+![Demo: diagonal watermark stamped across every page](assets/demo.png)
 
-- Windows + Python 3（建议 3.10+）
-- 依赖：`PyMuPDF`（fitz）、`Pillow`（PIL），已写入 `requirements.txt`
+## ✨ Features
 
-## 安装与运行
+- 🖱️ **One-click GUI** — double-click `双击运行.bat` (Windows) or run the script, pick your PDFs or a whole folder, done. No account, no cloud, no watermark SaaS.
+- 🎛️ **Fully configurable via JSON** — two lines of text, opacity, tilt angle, color, DPI, custom font. No code changes needed.
+- 🖼️ **Smart rasterization** — pure image pages keep their original pixels (no quality loss); vector / text-heavy pages are rendered at your chosen DPI. Bookmarks and metadata are preserved.
+- 🛡️ **Safe by design** — refuses to overwrite existing files, skips encrypted PDFs with a clear error, logs a `处理记录.json` report per batch so one bad file never aborts the whole run.
+- 📦 **Batch processing** — multi-select PDFs or point it at a folder; every output goes into a timestamped subfolder so you can run it repeatedly without collisions.
 
-最简单的方式：**双击 `双击运行.bat`**。
+Works on Windows, macOS, and Linux. Uses only PyMuPDF + Pillow.
 
-- 首次运行会自动用 pip 安装依赖（需要联网）
-- 之后每次双击即可，会弹出窗口让你选 PDF 或文件夹
+## When would you use this?
 
-手动安装依赖：
+- **Course creators / knowledge-card sellers** — stamp "© Your Name — for personal use only" on PDFs before sending to buyers, to deter reposting.
+- **Teachers / tutors** — watermark handouts shared on social media with your WeChat / Xiaohongshu handle.
+- **Teams sharing internal docs** — tag confidential PDFs with an internal-project line before circulating.
+- **Anyone who hates Canva / iLovePDF watermark quotas** — runs locally, unlimited pages, no per-file fee.
 
-```bash
-py -3 -m pip install -r requirements.txt
-```
+## Quick start
 
-命令行运行：
+### Windows
 
-```bash
-py -3 pdf_watermark.py                 # 弹出选择窗口
-py -3 pdf_watermark.py a.pdf b.pdf      # 直接处理指定文件
-py -3 pdf_watermark.py 某文件夹         # 处理文件夹下当前层级的 PDF
-```
+1. Make sure Python 3.10+ is installed (from [python.org](https://www.python.org/downloads/windows/), tick "Add to PATH").
+2. Double-click `双击运行.bat`. First run auto-installs dependencies (PyMuPDF, Pillow) — needs internet once.
+3. Pick your PDFs (Ctrl-click for multi-select) or a whole folder.
+4. Find results in a new `已加水印_YYYYMMDD_HHMMSS/` folder next to your source PDFs.
 
-## 配置水印
-
-改 `watermark_config.json` 即可，无需动代码：
-
-| 字段 | 说明 | 默认值 |
-|------|------|--------|
-| `primary_line` | 主水印文字（一行，必填） | `资料来源：@橙子同学` |
-| `secondary_line` | 副水印文字（一行，必填） | `仅供个人学习，请勿转售。侵权必究。` |
-| `opacity` | 不透明度 0.01–1 | `0.12` |
-| `angle` | 倾斜角度 -89–89（度） | `28` |
-| `color` | 六位十六进制颜色 | `#536D91` |
-| `raster_dpi` | 复杂页渲染分辨率 72–600 | `300` |
-| `font_path` | 中文字体路径，留空则自动用系统字体 | `""` |
-
-> 文字必须单行，不能带换行。改完保存即可生效。
-
-## 输出位置
-
-默认在原 PDF 同层级新建 `已加水印_时间戳` 文件夹，里面是加好水印的 PDF 和 `处理记录.json`。
-可用 `--output 文件夹` 指定输出父目录。
-
-## 注意事项
-
-- 已经加水印的 PDF 不要再丢进去处理，会叠两层水印
-- 带打开密码的 PDF 需要先另存为无密码副本
-- 单页超过约 6000 万像素会跳过该页并提示，可调低 `raster_dpi` 重试
-
-## 测试
+### macOS / Linux
 
 ```bash
-py -3 -m pytest tests
+pip install -r requirements.txt
+python pdf_watermark.py                 # opens the file-picker dialog
+python pdf_watermark.py a.pdf b.pdf     # process specific files
+python pdf_watermark.py ./my-pdfs       # process a whole folder
 ```
+
+## Configure your watermark
+
+Edit `watermark_config.json` with any text editor:
+
+| Field | Meaning | Default |
+|---|---|---|
+| `primary_line` | First watermark line (one line, no line breaks) | `Your Name @your-handle` |
+| `secondary_line` | Second watermark line (one line) | `For personal use only. Do not redistribute.` |
+| `opacity` | 0.01 – 1, higher = darker | `0.12` |
+| `angle` | Tilt in degrees, −89 to 89 | `28` |
+| `color` | Six-digit hex color | `#536D91` |
+| `raster_dpi` | Render DPI for complex pages, 72–600 | `300` |
+| `font_path` | Custom TTF/OTF path; leave empty to auto-detect system CJK font | `""` |
+
+> Text must be a single line (no `\n`). Chinese, English, or mixed both work. Save and re-run.
+
+## CLI options
+
+```text
+python pdf_watermark.py [INPUTS...] [--output DIR] [--config FILE]
+
+INPUTS       one or more PDF files, or a folder (top-level only, no recursion)
+--output    parent folder for the timestamped output dir (default: next to first input)
+--config    path to a custom watermark JSON (default: ./watermark_config.json)
+```
+
+## Notes & limitations
+
+- **Don't re-watermark already-watermarked PDFs** — the stamp will stack twice.
+- **Encrypted PDFs** need to be decrypted to a copy first; the tool will skip them and log the error.
+- **Large pages** (> ~60 megapixels at chosen DPI) are skipped with a message — lower `raster_dpi` to retry.
+- **Vector pages become images**: for pages that originally contained selectable text, after stamping they are flattened to images, so text search / copy / form fields / hyperlinks on those pages are no longer interactive. Bookmarks (outline TOC) are preserved.
+- This is not a DRM tool. A determined user can still erase the watermark with image editing.
+
+## Test
+
+```bash
+python -m pytest tests
+```
+
+## Keywords
+
+pdf watermark, batch watermark, stamp pdf, diagonal watermark, anti-piracy pdf, course material watermark, pdf protection, watermark cli, pymupdf, fpdf, reportlab, 批量加水印, PDF水印, 防搬运, 知识图卡, 版权水印
+
+## License
+
+[MIT](LICENSE)
